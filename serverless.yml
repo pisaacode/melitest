@@ -7,8 +7,17 @@ provider:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: src.handler.lambda_handler
     events:
       - httpApi:
-          path: /
+          path: /{any+}
           method: get
+    layers:
+      - { Ref: RequestsLambdaLayer }
+
+layers:
+  requests:
+    path: layers/requests
+    name: requests
+    compatibleRuntimes:
+      - python3.9
