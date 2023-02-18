@@ -18,25 +18,13 @@ Contain:
 * WAF
 ## Usage
 
+endpoint: ANY - https://09ihufpeu3.execute-api.us-east-1.amazonaws.com/dev/{any+}
+
 ### Deployment
 
 ```
 $ serverless deploy
 ```
-
-After deploying, you should see output similar to:
-
-```bash
-Deploying aws-python-http-api-project to stage dev (us-east-1)
-
-✔ Service deployed to stack aws-python-http-api-project-dev (140s)
-
-endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
-functions:
-  hello: aws-python-http-api-project-dev-hello (2.3 kB)
-```
-
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/).
 
 ### Invocation
 

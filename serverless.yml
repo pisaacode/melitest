@@ -11,7 +11,7 @@ functions:
     events:
       - http:
           path: /{any+}
-          method: get #ANY
+          method: ANY
     layers:
       - { Ref: RequestsLambdaLayer }
 
