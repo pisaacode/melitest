@@ -12,13 +12,12 @@ class Utils:
     def clean_request(event):
         # Get data original request
         try:
-            request = event['requestContext']['http']
-            method = request['method']
-            path = request['path']
+            method = event['httpMethod']
+            path = event['path']
 
-            event['headers'].pop('host')
+            event['headers'].pop('Host')
             headers = event['headers']
-            body = request.get('body', None)
+            body = event.get('body', None)
 
             data = {'method': method,
                     'path': path,
@@ -26,7 +25,7 @@ class Utils:
                     'body': body}
         except Exception as e:
             logger.error(f"Error getting request, Error: {e}")
-            raise MalformedRequest("Client id was not found")
+            raise MalformedRequest("Error getting request")
 
         return data
 
@@ -42,7 +41,7 @@ class Utils:
             }
         except Exception as e:
             logger.error(f"Error building response, Error: {e}")
-            raise ErrorBuildingResponse("Client id was not found")
+            raise ErrorBuildingResponse("Error building response")
 
         return response
 

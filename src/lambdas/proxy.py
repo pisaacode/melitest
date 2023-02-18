@@ -24,18 +24,18 @@ def lambda_handler(event, context):
         response = Utils.build_response(resp)
 
     except MalformedRequest as exception:
-        response = Utils.ErrorResponse(status_code=501,
-                                       message="Error internal.",
-                                       causes=exception)
+        response = Utils.error_response(status_code=501,
+                                        message="Error internal.",
+                                        causes=exception)
 
     except ErrorBuildingResponse as exception:
-        response = Utils.ErrorResponse(status_code=501,
-                                       message="Error internal.",
-                                       causes=exception)
+        response = Utils.error_response(status_code=501,
+                                        message="Error internal.",
+                                        causes=exception)
     except Exception as exception:
-        response = Utils.ErrorResponse(status_code=501,
-                                       message="Internal Error.",
-                                       causes=exception)
+        response = Utils.error_response(status_code=501,
+                                        message="Internal Error.",
+                                        causes=exception)
 
     # return request to client
     return response

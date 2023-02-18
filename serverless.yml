@@ -9,11 +9,16 @@ functions:
   hello:
     handler: src.lambdas.proxy.lambda_handler
     events:
-      - httpApi:
+      - http:
           path: /{any+}
-          method: get
+          method: get #ANY
     layers:
       - { Ref: RequestsLambdaLayer }
+
+custom:
+  associateWaf:
+    name: waf-proxy #TODO change to ssm
+    version: V2
 
 layers:
   requests:
@@ -24,3 +29,5 @@ layers:
 
 plugins:
   - serverless-offline
+  - serverless-associate-waf
+

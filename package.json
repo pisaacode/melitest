@@ -12,6 +12,7 @@
     "serveless": "^0.0.2"
   },
   "devDependencies": {
+    "serverless-associate-waf": "^1.2.1",
     "serverless-offline": "^12.0.4"
   }
 }
