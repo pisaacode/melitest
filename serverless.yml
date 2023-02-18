@@ -7,7 +7,7 @@ provider:
 
 functions:
   hello:
-    handler: src.handler.lambda_handler
+    handler: src.lambdas.proxy.lambda_handler
     events:
       - httpApi:
           path: /{any+}
@@ -21,3 +21,6 @@ layers:
     name: requests
     compatibleRuntimes:
       - python3.9
+
+plugins:
+  - serverless-offline
