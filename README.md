@@ -10,12 +10,12 @@ authorName: 'Serverless, inc.'
 authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
 -->
 
-# Serverless Framework Python HTTP API on AWS
+# Server proxy with servelerless framework in AWS
 
-This template demonstrates how to make a simple HTTP API with Python running on AWS Lambda and API Gateway using the Serverless Framework.
-
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/)  which includes DynamoDB, Mongo, Fauna and other examples.
-
+This is a test to test the operation of a proxy server adding ratelimit rules
+Contain:
+* Lambda
+* WAF
 ## Usage
 
 ### Deployment

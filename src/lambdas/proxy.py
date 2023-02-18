@@ -1,10 +1,23 @@
 import requests
+import logging
 from src.utils import Utils
 from src.constants import SERVERS
 from src.exceptions import MalformedRequest, ErrorBuildingResponse
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 
 def lambda_handler(event, context):
+    """
+    The lambda_handler function is the entry point for the AWS Lambda function.
+    It receives a ReST request and returns a ReST response.
+
+
+    :param event: Pass data to the handler
+    :param context: Pass information about the invocation,
+    :return: A dict with the following keys:
+    """
 
     try:
         data = Utils.clean_request(event)
@@ -33,6 +46,7 @@ def lambda_handler(event, context):
                                         message="Error internal.",
                                         causes=exception)
     except Exception as exception:
+        logger.error(f"Error critical: {exception}")
         response = Utils.error_response(status_code=501,
                                         message="Internal Error.",
                                         causes=exception)
