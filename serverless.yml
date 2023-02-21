@@ -6,7 +6,7 @@ provider:
   runtime: python3.9
 
 functions:
-  hello:
+  proxy:
     handler: src.lambdas.proxy.lambda_handler
     events:
       - http:
