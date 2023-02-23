@@ -38,12 +38,12 @@ def lambda_handler(event, context):
 
     except MalformedRequest as exception:
         response = Utils.error_response(status_code=501,
-                                        message="Error internal.",
+                                        message="Internal Error.",
                                         causes=exception)
 
     except ErrorBuildingResponse as exception:
         response = Utils.error_response(status_code=501,
-                                        message="Error internal.",
+                                        message="Internal Error.",
                                         causes=exception)
     except Exception as exception:
         logger.error(f"Error critical: {exception}")
