@@ -1,19 +1,79 @@
-Name: ratelimit-just-by-ip
-Priority: 0
-Statement:
-  RateBasedStatement:
-    Limit: 4999
-    AggregateKeyType: IP
-    ScopeDownStatement:
-      IPSetReferenceStatement:
-        ARN: >-
-          arn:aws:wafv2:us-east-1:865472765923:regional/ipset/Ipbyreques/d6633263-1947-4024-8c21-6265d35fe55d
-Action:
-  Block: {}
-VisibilityConfig:
-  SampledRequestsEnabled: true
-  CloudWatchMetricsEnabled: true
-  MetricName: ratelimit-just-by-ip
+Resources:
+  RestrictRateLimitIPAndPathCloud:
+    Type: 'AWS::WAFv2::WebACL'
+    Properties:
+      Name: restric-ratelimit-ip-and-path-from-cloudformation
+      Scope: REGIONAL
+      DefaultAction:
+        Block: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: restric-ratelimit-ip-and-path-from-cloudformation
+      Rules:
+        - Name: RestrictRateLimitIPAndPathRuleCloud
+          Priority: 2
+          Statement:
+            RateBasedStatement:
+              Limit: 100
+              AggregateKeyType: IP
+              ScopeDownStatement:
+                AndStatement:
+                  Statements:
+                    - IPSetReferenceStatement:
+                        ARN: arn:aws:wafv2:us-east-1:865472765923:regional/ipset/Ipbyreques/d6633263-1947-4024-8c21-6265d35fe55d # TODO ssm
+                    - ByteMatchStatement:
+                        SearchString: "/sell"
+                        FieldToMatch:
+                          UriPath: {}
+                        TextTransformations:
+                          - Priority: 0
+                            Type: "LOWERCASE"
+                        PositionalConstraint: "EXACTLY"
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: ratelimit-just-by-ip
+        - Name: RateLimitJustByIPRule
+          Priority: 0
+          Statement:
+            RateBasedStatement:
+              Limit: 4999
+              AggregateKeyType: IP
+              ScopeDownStatement:
+                IPSetReferenceStatement:
+                  ARN: arn:aws:wafv2:us-east-1:865472765923:regional/ipset/Ipbyreques/d6633263-1947-4024-8c21-6265d35fe55d # TODO ssm
+          Action:
+            Block: {}
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: ratelimit-just-by-ip
+        - Name: RestrictRateLimitIPAndPathRule
+          Priority: 3
+          Statement:
+            RateBasedStatement:
+              Limit: 100
+              AggregateKeyType: IP
+              ScopeDownStatement:
+                AndStatement:
+                  Statements:
+                    - IPSetReferenceStatement:
+                        ARN: arn:aws:wafv2:us-east-1:865472765923:regional/ipset/Ipbyreques/d6633263-1947-4024-8c21-6265d35fe55d # TODO ssm
+                    - ByteMatchStatement:
+                        SearchString: "/sell"
+                        FieldToMatch:
+                          UriPath: { }
+                        TextTransformations:
+                          - Priority: 0
+                            Type: "LOWERCASE"
+                        PositionalConstraint: "EXACTLY"
+          Action:
+            Block: { }
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: restric-ratelimit-ip-and-path
 
-# TODO Add this in serveless
-# TODO add rule about pahts and ips

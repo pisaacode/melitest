@@ -39,3 +39,5 @@ plugins:
   - serverless-associate-waf
   - serverless-api-gateway-caching
 
+resources:
+  ${file(resources/waf.yml)}
