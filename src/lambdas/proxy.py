@@ -7,6 +7,8 @@ from src.exceptions import MalformedRequest, ErrorBuildingResponse
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+SERVER_URL = SERVERS.get('api_mercadolibre')
+
 
 def lambda_handler(event, context):
     """
@@ -20,36 +22,37 @@ def lambda_handler(event, context):
     """
 
     try:
-        data = Utils.clean_request(event)
+        request_data = Utils.clean_request(event)
 
         # Build url
-        url = SERVERS.get('api_mercadolibre') + data.get('path')
+        # Build URL
+        url = f"{SERVER_URL}{request_data.get('path')}"
 
         # Send data to target server
         resp = requests.request(
-            method=data.get('method'),
+            method=request_data.get('method'),
             url=url,
-            headers=data.get('headers'),
-            data=data.get('body')
+            headers=request_data.get('headers'),
+            data=request_data.get('body')
         )
 
         # build response to client
-        response = Utils.build_response(resp)
+        response_data = Utils.build_response(resp)
+
+        # Return response to client
+        return response_data
 
     except MalformedRequest as exception:
-        response = Utils.error_response(status_code=501,
-                                        message="Internal Error.",
-                                        causes=exception)
+        return Utils.error_response(status_code=400,
+                                    message="Internal Error.",
+                                    causes=exception)
 
     except ErrorBuildingResponse as exception:
-        response = Utils.error_response(status_code=501,
-                                        message="Internal Error.",
-                                        causes=exception)
+        return Utils.error_response(status_code=500,
+                                    message="Internal Error.",
+                                    causes=exception)
     except Exception as exception:
         logger.error(f"Error critical: {exception}")
-        response = Utils.error_response(status_code=501,
-                                        message="Internal Error.",
-                                        causes=exception)
-
-    # return request to client
-    return response
+        return Utils.error_response(status_code=500,
+                                    message="Internal Error.",
+                                    causes=exception)
