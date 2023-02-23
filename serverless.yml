@@ -12,20 +12,20 @@ functions:
       - http:
           path: /{any+}
           method: ANY
-          # caching: #TODO is not free
-          #  enabled: true #TODO is not free
+          caching: #TODO is not free
+          enabled: true #TODO is not free
     layers:
       - { Ref: RequestsLambdaLayer }
 
-#custom:
-#  associateWaf:#TODO is not free
-#    name: waf-proxy #TODO change to ssm
-#    version: V2
+custom:
+  associateWaf: #TODO is not free
+    name: waf-proxy #TODO change to ssm
+    version: V2
 
-#  apiGatewayCaching:
-#    enabled: true
-#    clusterSize: '0.5' # defaults to '0.5'
-#    ttlInSeconds: 300 # defaults to the maximum allowed: 3600
+  apiGatewayCaching:
+    enabled: true
+    clusterSize: '0.5' # defaults to '0.5'
+    ttlInSeconds:  60 # defaults to the maximum allowed: 3600
 
 layers:
   requests:
