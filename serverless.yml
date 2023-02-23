@@ -13,7 +13,7 @@ functions:
           path: /{any+}
           method: ANY
           caching: #TODO is not free
-          enabled: true #TODO is not free
+            enabled: true #TODO is not free
     layers:
       - { Ref: RequestsLambdaLayer }
 
@@ -22,7 +22,7 @@ custom:
     name: waf-proxy #TODO change to ssm
     version: V2
 
-  apiGatewayCaching:
+  apiGatewayCaching: #TODO is not free
     enabled: true
     clusterSize: '0.5' # defaults to '0.5'
     ttlInSeconds:  60 # defaults to the maximum allowed: 3600
