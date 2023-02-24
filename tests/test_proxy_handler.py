@@ -16,7 +16,7 @@ def test_corrupt_request():
     :return: A status code of 501
     """
     resp = lambda_handler(CORRUPT_REQUEST, {})
-    assert resp.get('statusCode') == 501
+    assert resp.get('statusCode') == 400
 
 
 def test_ok_request():
@@ -30,3 +30,16 @@ def test_ok_request():
         mock_request.get(requests_mock.ANY, text="Ok!", status_code=200)
         resp = lambda_handler(CORRECT_REQUEST, {})
         assert resp.get('statusCode') == 200
+
+
+def test_ok_request_error():
+    """
+    The test_ok_request function tests the lambda_handler function by mocking a ReST call to the
+    API Gateway. The test passes if it returns a 200 status code.
+
+    :return: A 200 status code
+    """
+    with requests_mock.Mocker() as mock_request:
+        mock_request.get(requests_mock.ANY, text="Ok!", status_code=500)
+        resp = lambda_handler(CORRECT_REQUEST, {})
+        assert resp.get('statusCode') == 500

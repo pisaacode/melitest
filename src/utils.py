@@ -21,8 +21,8 @@ class Utils:
         try:
             method = event['httpMethod']
             path = event['path']
-
-            event['headers'].pop('Host')
+            if 'Host' in event['headers']:
+                event['headers'].pop('Host')
             headers = event['headers']
             body = event.get('body', None)
 
