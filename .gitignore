@@ -40,3 +40,6 @@ admin.env
 .env
 _meta
 .serverless
+
+# FILE pyc
+*.pyc
